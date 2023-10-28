@@ -15,6 +15,7 @@ import com.sky.exception.AccountNotFoundException;
 import com.sky.exception.PasswordErrorException;
 import com.sky.mapper.EmployeeMapper;
 import com.sky.result.PageResult;
+import com.sky.result.Result;
 import com.sky.service.EmployeeService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -102,6 +103,37 @@ public class EmployeeServiceImpl implements EmployeeService {
         List<Employee> records = page.getResult();
 
         return new PageResult(total,records);
+    }
+
+    
+    /*
+    * 启用禁用员工账号
+    * */
+    @Override
+    public void startorStop(Long id, Integer status) {
+
+        Employee employee = Employee.builder()
+                .status(status)
+                .id(id).build();
+
+        employeeMapper.update(employee);
+    }
+
+    @Override
+    public Employee getByid(Long id) {
+        Employee employee = employeeMapper.getById(id);
+        employee.setPassword("****");
+        return employee;
+    }
+
+    @Override
+    public void update(EmployeeDTO employeeDTO) {
+        Employee employee = new Employee();
+        BeanUtils.copyProperties(employeeDTO,employee);
+        employee.setUpdateTime(LocalDateTime.now());
+        employee.setUpdateUser(BaseContext.getCurrentId());
+
+        employeeMapper.update(employee);
     }
 
 }
