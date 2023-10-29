@@ -109,6 +109,7 @@
         <!-- poi -->
         <dependency>
             <groupId>org.apache.poi</groupId>
+            <groupId>org.apache.poi</groupId>
             <artifactId>poi</artifactId>
         </dependency>
         <dependency>
